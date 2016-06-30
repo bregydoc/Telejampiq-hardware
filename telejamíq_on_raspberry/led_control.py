@@ -44,13 +44,13 @@ class HardwareLedRpi:
         self.red.start(100.0)	
 		
     def cleanAll(self):
-	GPIO.cleanup(32)
-	GPIO.cleanup(35)
-	GPIO.cleanup(33)
-	
 	self.red.stop()
 	self.blue.stop()
 	self.green.stop()
+	
+	GPIO.cleanup(32)
+	GPIO.cleanup(35)
+	GPIO.cleanup(33)
 	
 
     def busy(self):
@@ -117,8 +117,11 @@ class HardwareLedRpi:
 	#self.cleanAll()
 	
     def onStart(self):
-	
         self.green.ChangeDutyCycle(0.0)
+    
+    def turnOfPrincipalLight(self):
+	self.red.stop()
+	GPIO.cleanup(33)
 
 
 
@@ -130,6 +133,8 @@ h.onBusy()
 time.sleep(4)
 h.stopBusy()
 h.onStart()
+time.sleep(4)
+h.turnOfPrincipalLight()
 
 
 import atexit
