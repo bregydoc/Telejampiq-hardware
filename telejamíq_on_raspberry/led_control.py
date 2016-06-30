@@ -1,8 +1,9 @@
+
+
 import RPi.GPIO as GPIO
 import time
-from sys import exit
-
 from threading import Thread
+
 
 class HardwareLedRpi:
     def __init__(self):
@@ -120,10 +121,12 @@ class HardwareLedRpi:
         self.green.ChangeDutyCycle(0.0)
     
     def turnOfPrincipalLight(self):
-	self.red.stop()
+	self.green.stop()
 	GPIO.cleanup(33)
 
 
+"""
+EXAMPLE OF USE:
 
 h = HardwareLedRpi()
 
@@ -139,6 +142,7 @@ h.turnOfPrincipalLight()
 
 import atexit
 atexit.register(h.cleanAll)
+"""
 
 
 
