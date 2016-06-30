@@ -1,3 +1,9 @@
+#=========================================#
+#   AUTOR: Malpartida Ramos, Bregy        #
+#   PROJECT: Telejampiq                   #
+#   DESCRIPTION: Project of biotechnology #
+#   DATE: 30/06/2016 04:54                #
+#=========================================#
 
 
 import RPi.GPIO as GPIO
@@ -24,12 +30,12 @@ class HardwareLedRpi:
         self.red.start(100.0)
 
 
-	
+
 	self.onBusyFlag = False
 	self.onErrorFlag = False
-	
 
-        
+
+
 
 	self.busyThread = Thread(target=self.busy)
 	self.busyThread.start()
@@ -42,17 +48,17 @@ class HardwareLedRpi:
     def startAll(self):
 	self.blue.start(100.0)
         self.green.start(100.0)
-        self.red.start(100.0)	
-		
+        self.red.start(100.0)
+
     def cleanAll(self):
 	self.red.stop()
 	self.blue.stop()
 	self.green.stop()
-	
+
 	GPIO.cleanup(32)
 	GPIO.cleanup(35)
 	GPIO.cleanup(33)
-	
+
 
     def busy(self):
     	vel = 1
@@ -61,15 +67,15 @@ class HardwareLedRpi:
 		        for i in range(0,100, vel):
 		            self.blue.ChangeDutyCycle(i)
 		            time.sleep(0.009)
-			    
-	
+
+
 			time.sleep(0.1)
 
 
 		        for i in range(100, 0, -1*vel):
 		            self.blue.ChangeDutyCycle(i)
 		            time.sleep(0.009)
-		            
+
 		while not self.onBusyFlag:
 			time.sleep(0.1)
 
@@ -81,24 +87,24 @@ class HardwareLedRpi:
 		        for i in range(0,100, vel):
 		            self.red.ChangeDutyCycle(i)
 		            time.sleep(0.009)
-			    
-	
+
+
 			time.sleep(0.1)
 
 
 		        for i in range(100, 0, -1*vel):
 		            self.red.ChangeDutyCycle(i)
 		            time.sleep(0.009)
-		            
+
 		while not self.onErrorFlag:
 			time.sleep(0.1)
-		 
+
 
     def onBusy(self):
 	self.blue.start(100.0)
-	self.onBusyFlag = True    
+	self.onBusyFlag = True
 
-    def stopBusy(self):	
+    def stopBusy(self):
 	self.onBusyFlag = False
 	#self.blue.ChangeDutyCycle(100.0)
 	self.blue.stop()
@@ -108,18 +114,18 @@ class HardwareLedRpi:
     def onError(self):
 
 	self.red.start(100.0)
-	self.onErrorFlag = True    
+	self.onErrorFlag = True
 
-    def stopError(self):	 
+    def stopError(self):
 	self.onErrorFlag = False
 	#self.red.ChangeDutyCycle(100.0)
 	self.red.stop()
 	GPIO.cleanup(35)
 	#self.cleanAll()
-	
+
     def onStart(self):
         self.green.ChangeDutyCycle(0.0)
-    
+
     def turnOfPrincipalLight(self):
 	self.green.stop()
 	GPIO.cleanup(33)
@@ -143,6 +149,3 @@ h.turnOfPrincipalLight()
 import atexit
 atexit.register(h.cleanAll)
 """
-
-
-
